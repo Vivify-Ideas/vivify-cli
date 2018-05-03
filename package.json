@@ -1,12 +1,15 @@
 {
   "name": "vivify-cli",
   "description": "VivifyScrum CLI",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "dependencies": {
     "axios": "^0.18.0",
+    "chalk": "^2.4.1",
+    "cli-table": "^0.3.1",
     "configstore": "^3.1.2",
     "inquirer": "^5.2.0",
     "ora": "^2.0.0",
+    "wrap-ansi": "^3.0.1",
     "yargs": "^11.0.0"
   },
   "main": "index.js",
@@ -14,6 +17,8 @@
     "vivify-cli": "index.js"
   },
   "keywords": [
-    "cli", "vivifyscrum", "tool"
+    "cli",
+    "vivifyscrum",
+    "tool"
   ]
 }
