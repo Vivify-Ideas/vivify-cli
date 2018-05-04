@@ -122,12 +122,67 @@ yargs
           default: 'Story',
           choices: [ 'Story', 'Improvement', 'Bug', 'Task', 'Note' ]
         })
+        .positional('sprint', {
+          alias: 's',
+          describe: 'Sprint column name or Kanban list name',
+          type: 'string',
+          default: ''
+        })
         .demandOption([ 'n' ])
     }, (args) => {
       actions.createItem(args.board, {
         name: args.name,
         description: args.description,
-        type: args.type
+        type: args.type,
+        sprint: args.sprint
+      })
+    })
+  .command('update:item [board] [hashcode]', 'Update Board Item',
+    (yargs) => {
+      yargs
+        .positional('board', {
+          alias: 'b',
+          describe: 'Persisted Board auth data name',
+          default: 'default',
+          type: 'string'
+        })
+        .positional('hashcode', {
+          alias: 'h',
+          describe: 'Item hashcode',
+          type: 'string'
+        })
+        .positional('name', {
+          alias: 'n',
+          describe: 'Item name',
+          type: 'string'
+        })
+        .positional('description', {
+          alias: 'd',
+          describe: 'Item description',
+          type: 'string',
+          default: ''
+        })
+        .positional('type', {
+          alias: 't',
+          describe: 'Item type',
+          type: 'string',
+          default: 'Story',
+          choices: [ 'Story', 'Improvement', 'Bug', 'Task', 'Note' ]
+        })
+        .positional('sprint', {
+          alias: 's',
+          describe: 'Sprint column name or Kanban list name',
+          type: 'string',
+          default: ''
+        })
+        .demandOption([ 'h' ])
+    }, (args) => {
+      actions.updateItem(args.board, {
+        task: args.hashcode,
+        name: args.name,
+        description: args.description,
+        type: args.type,
+        sprint: args.sprint
       })
     })
   .command('remove:item [board] [hashcode] [remove_subitems]', 'Remove Board Item',

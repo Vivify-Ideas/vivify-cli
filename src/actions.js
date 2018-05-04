@@ -11,6 +11,7 @@ const spinner = new ora({
 const {
   getBoardApiRequest,
   createItemApiRequest,
+  updateItemApiRequest,
   removeItemApiRequest
 } = require('./api')
 const {
@@ -72,7 +73,7 @@ async function showBoard(name, numberOfColumns) {
     )
     drawBoardTable(board, numberOfColumns)
   } catch (error) {
-    spinner.fail(error)
+    spinner.fail(error.response.data.error)
   }
 }
 
@@ -85,7 +86,20 @@ async function createItem(name, requestData) {
       `Board Item "${data.name}" (${data.code}) Created`
     )
   } catch (error) {
-    spinner.fail(error)
+    spinner.fail(error.response.data.error)
+  }
+}
+
+async function updateItem(name, requestData) {
+  try {
+    spinner.start('Updating Board Item...')
+    const boardAuthData = config.get(`boards.${name}`)
+    const { data } = await updateItemApiRequest(boardAuthData, requestData)
+    spinner.succeed(
+      `Board Item "${data.name}" (${data.code}) Updated`
+    )
+  } catch (error) {
+    spinner.fail(error.response.data.error)
   }
 }
 
@@ -96,7 +110,7 @@ async function removeItem(name, requestData) {
     const { data } = await removeItemApiRequest(boardAuthData, requestData)
     spinner.succeed('Board Item removed!')
   } catch (error) {
-    spinner.fail(error)
+    spinner.fail(error.response.data.error)
   }
 }
 
@@ -126,6 +140,7 @@ module.exports = {
   removeBoardAuthData,
   showBoard,
   createItem,
+  updateItem,
   showItem,
   removeItem
 }

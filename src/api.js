@@ -33,6 +33,13 @@ async function createItemApiRequest(boardAuthData, data) {
   })
 }
 
+async function updateItemApiRequest(boardAuthData, data) {
+  let axiosData = prepareAxiosData(boardAuthData, data)
+  return axiosInstance.put('/task', axiosData.data, {
+    headers: axiosData.headers
+  })
+}
+
 async function removeItemApiRequest(boardAuthData, data) {
   let axiosData = prepareAxiosData(boardAuthData, data)
   return axiosInstance.delete('/task', {
@@ -44,5 +51,6 @@ async function removeItemApiRequest(boardAuthData, data) {
 module.exports = {
   getBoardApiRequest,
   createItemApiRequest,
+  updateItemApiRequest,
   removeItemApiRequest
 }

@@ -1,7 +1,7 @@
 {
   "name": "vivify-cli",
   "description": "VivifyScrum CLI",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.1",
   "dependencies": {
     "axios": "^0.18.0",
     "chalk": "^2.4.1",

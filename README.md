@@ -13,6 +13,7 @@ Available Actions:
 - Show Board (Persisted locally),
 - Show Loaded Board Item (from locally persisted Board),
 - Create Board Item,
+- Update Board Item,
 - Remove Board Item
 
 More actions will be added soon...

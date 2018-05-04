@@ -2,31 +2,18 @@ const table = require('cli-table')
 const chalk = require('chalk')
 const wrap = require('wrap-ansi')
 
+const ITEM_TYPE_COLORS = {
+  Bug: '#ff4040',
+  Story: '#66cdaa',
+  Improvement: '#35bcf8',
+  Task: '#ffc371',
+  Note: '#ffff00',
+  Idea: '#ff66ff'
+}
+
 /* Change output text color */
 function colorByItemType(itemType, data) {
-  let color = '#fff'
-  switch(itemType) {
-    case 'Bug':
-      color = '#ff4040'
-      break
-    case 'Story':
-      color = '#66cdaa'
-      break
-    case 'Improvement':
-      color = '#35bcf8'
-      break
-    case 'Task':
-      color = '#ffc371'
-      break
-    case 'Note':
-      color = '#ffff00'
-      break
-    case 'Idea':
-      color = '#ff66ff'
-      break
-    default:
-      color = '#fff'
-  }
+  let color = ITEM_TYPE_COLORS[itemType] || '#fff';
   if (data instanceof Array) {
     return data.map((item) => {
       if (item instanceof Array) {
@@ -51,14 +38,16 @@ function drawBoardTable (boardData, numberOfColumns) {
   let tableInstance = new table({
     head: columns.map((column) =>
       chalk.hex(
-        column.status === 'active' ? '#5cc1a6' : '#ff4040'
-      )(`${column.name} (${column.items.length})`)),
+        column.status === 'active' ?
+          ITEM_TYPE_COLORS.Story : ITEM_TYPE_COLORS.Bug
+      )(wrap(`${column.name} (${column.items.length})`, 18))),
     colWidths: columns.map((column) => 20)
   })
   let columnItems = columns.map(
     col => col.items.map(
       (item) => colorByItemType(
-        item.type, wrap(`${item.code} ${item.name}`.trim(), 10)
+        item.type,
+        wrap(`${item.code} ${item.name}`.trim(), 10)
       ))
     )
   let items = []
