@@ -3,23 +3,26 @@ const axiosInstance = axios.create({
   baseURL: 'https://www.vivifyscrum.com/api/v1'
 })
 
-function prepareAxiosData (boardAuthData, data = {}) {
+function prepareAxiosData(boardAuthData, data = {}) {
   if (!boardAuthData) {
-    throw new Error(`Persisted Board *${name}* auth data not found!`);
+    throw new Error(`Persisted Board *${name}* auth data not found!`)
   }
   return {
-    data: Object.assign({
-      email: boardAuthData.email,
-      board: boardAuthData.code
-    }, data),
+    data: Object.assign(
+      {
+        email: boardAuthData.email,
+        board: boardAuthData.code
+      },
+      data
+    ),
     headers: {
       Authorization: `Bearer ${boardAuthData.token}`
     }
-  };
-};
+  }
+}
 
 async function getBoardApiRequest(boardAuthData) {
-  let axiosData = prepareAxiosData(boardAuthData);
+  let axiosData = prepareAxiosData(boardAuthData)
   return axiosInstance.get('/board-export', {
     params: axiosData.data,
     headers: axiosData.headers

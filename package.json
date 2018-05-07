@@ -16,9 +16,8 @@
   "bin": {
     "vivify-cli": "index.js"
   },
-  "keywords": [
-    "cli",
-    "vivifyscrum",
-    "tool"
-  ]
+  "keywords": ["cli", "vivifyscrum", "tool"],
+  "devDependencies": {
+    "prettier": "^1.12.1"
+  }
 }

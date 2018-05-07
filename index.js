@@ -11,8 +11,10 @@ https://www.vivifyscrum.com/
 
 yargs
   .usage('$0 <command> [options]', 'VivifyScrum CLI tool')
-  .command('store [code] [email] [token]', 'Persist Board Auth data (token)',
-    (yargs) => {
+  .command(
+    'store [code] [email] [token]',
+    'Persist Board Auth data (token)',
+    yargs => {
       yargs
         .positional('name', {
           alias: 'n',
@@ -35,14 +37,16 @@ yargs
           describe: 'Board auth token (you must be authorized for API actions)',
           type: 'string'
         })
-        .demandOption([ 'c', 't', 'e' ])
-    }, (args) => {
-      actions.storeBoardAuthData(
-        args.name, args.code, args.email, args.token
-      )
-    })
-  .command('remove [name]', 'Remove persisted Board auth data',
-    (yargs) => {
+        .demandOption(['c', 't', 'e'])
+    },
+    args => {
+      actions.storeBoardAuthData(args.name, args.code, args.email, args.token)
+    }
+  )
+  .command(
+    'remove [name]',
+    'Remove persisted Board auth data',
+    yargs => {
       yargs
         .positional('name', {
           alias: 'n',
@@ -50,17 +54,24 @@ yargs
           default: 'default',
           type: 'string'
         })
-        .demandOption([ 'n' ])
-    }, (args) => {
+        .demandOption(['n'])
+    },
+    args => {
       actions.removeBoardAuthData(args.name)
-    })
-  .command('list', 'List persisted Board auth data names',
-    (yargs) => {
-    }, (args) => {
+    }
+  )
+  .command(
+    'list',
+    'List persisted Board auth data names',
+    yargs => {},
+    args => {
       actions.listBoardsAuthData()
-    })
-  .command('show:board [board]', 'Show Board',
-    (yargs) => {
+    }
+  )
+  .command(
+    'show:board [board]',
+    'Show Board',
+    yargs => {
       yargs
         .positional('board', {
           alias: 'b',
@@ -74,11 +85,15 @@ yargs
           default: 4,
           type: 'number'
         })
-    }, async (args) => {
+    },
+    async args => {
       await actions.showBoard(args.board, args.size)
-    })
-  .command('show:item [board] [hascode]', 'Show Board Item',
-    (yargs) => {
+    }
+  )
+  .command(
+    'show:item [board] [hascode]',
+    'Show Board Item',
+    yargs => {
       yargs
         .positional('board', {
           alias: 'b',
@@ -91,12 +106,16 @@ yargs
           describe: 'Item hashcode',
           type: 'string'
         })
-        .demandOption([ 'h' ])
-    }, (args) => {
+        .demandOption(['h'])
+    },
+    args => {
       actions.showItem(args.board, args.hashcode)
-    })
-  .command('create:item [board] [name]', 'Create Board Item',
-    (yargs) => {
+    }
+  )
+  .command(
+    'create:item [board] [name]',
+    'Create Board Item',
+    yargs => {
       yargs
         .positional('board', {
           alias: 'b',
@@ -120,7 +139,7 @@ yargs
           describe: 'Item type',
           type: 'string',
           default: 'Story',
-          choices: [ 'Story', 'Improvement', 'Bug', 'Task', 'Note' ]
+          choices: ['Story', 'Improvement', 'Bug', 'Task', 'Note']
         })
         .positional('sprint', {
           alias: 's',
@@ -128,17 +147,21 @@ yargs
           type: 'string',
           default: ''
         })
-        .demandOption([ 'n' ])
-    }, (args) => {
+        .demandOption(['n'])
+    },
+    args => {
       actions.createItem(args.board, {
         name: args.name,
         description: args.description,
         type: args.type,
         sprint: args.sprint
       })
-    })
-  .command('update:item [board] [hashcode]', 'Update Board Item',
-    (yargs) => {
+    }
+  )
+  .command(
+    'update:item [board] [hashcode]',
+    'Update Board Item',
+    yargs => {
       yargs
         .positional('board', {
           alias: 'b',
@@ -167,7 +190,7 @@ yargs
           describe: 'Item type',
           type: 'string',
           default: 'Story',
-          choices: [ 'Story', 'Improvement', 'Bug', 'Task', 'Note' ]
+          choices: ['Story', 'Improvement', 'Bug', 'Task', 'Note']
         })
         .positional('sprint', {
           alias: 's',
@@ -175,8 +198,9 @@ yargs
           type: 'string',
           default: ''
         })
-        .demandOption([ 'h' ])
-    }, (args) => {
+        .demandOption(['h'])
+    },
+    args => {
       actions.updateItem(args.board, {
         task: args.hashcode,
         name: args.name,
@@ -184,9 +208,12 @@ yargs
         type: args.type,
         sprint: args.sprint
       })
-    })
-  .command('remove:item [board] [hashcode] [remove_subitems]', 'Remove Board Item',
-    (yargs) => {
+    }
+  )
+  .command(
+    'remove:item [board] [hashcode] [remove_subitems]',
+    'Remove Board Item',
+    yargs => {
       yargs
         .positional('board', {
           alias: 'b',
@@ -205,14 +232,15 @@ yargs
           type: 'boolean',
           default: false
         })
-        .demandOption([ 'h' ])
-    }, (args) => {
+        .demandOption(['h'])
+    },
+    args => {
       actions.removeItem(args.board, {
         task: args.hashcode,
         delete_subtasks: args.remove_subitems
       })
-    })
+    }
+  )
   .command('help', 'Show Help')
   .version(package.version)
-  .epilog(epilogText)
-  .argv
+  .epilog(epilogText).argv

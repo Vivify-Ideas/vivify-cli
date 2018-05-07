@@ -14,15 +14,8 @@ const {
   updateItemApiRequest,
   removeItemApiRequest
 } = require('./api')
-const {
-  prepareBoardData
-} = require('./mapper')
-const {
-  colorByItemType,
-  drawBoardTable,
-  drawBoardItem
-} = require('./outputs')
-
+const { prepareBoardData } = require('./mapper')
+const { colorByItemType, drawBoardTable, drawBoardItem } = require('./outputs')
 
 function storeBoardAuthData(name, code, email, token) {
   config.set(`boards.${name}`, { email, token, code })
@@ -56,7 +49,7 @@ function listBoardsAuthData() {
   }
   let boardsString = ''
   Object.keys(boards).forEach((key, index) => {
-    boardsString += `${index+1}) ${key} \n`
+    boardsString += `${index + 1}) ${key} \n`
   })
   console.log(boardsString)
 }
@@ -68,9 +61,7 @@ async function showBoard(name, numberOfColumns) {
     const { data } = await getBoardApiRequest(boardAuthData)
     const board = prepareBoardData(data)
     config.set(`boards.${name}.data`, board)
-    spinner.succeed(
-      `Board "${data.name}" (${data.code}) Loaded`
-    )
+    spinner.succeed(`Board "${data.name}" (${data.code}) Loaded`)
     drawBoardTable(board, numberOfColumns)
   } catch (error) {
     spinner.fail(error.response.data.error)
@@ -82,9 +73,7 @@ async function createItem(name, requestData) {
     spinner.start('Creating Board Item...')
     const boardAuthData = config.get(`boards.${name}`)
     const { data } = await createItemApiRequest(boardAuthData, requestData)
-    spinner.succeed(
-      `Board Item "${data.name}" (${data.code}) Created`
-    )
+    spinner.succeed(`Board Item "${data.name}" (${data.code}) Created`)
   } catch (error) {
     spinner.fail(error.response.data.error)
   }
@@ -95,9 +84,7 @@ async function updateItem(name, requestData) {
     spinner.start('Updating Board Item...')
     const boardAuthData = config.get(`boards.${name}`)
     const { data } = await updateItemApiRequest(boardAuthData, requestData)
-    spinner.succeed(
-      `Board Item "${data.name}" (${data.code}) Updated`
-    )
+    spinner.succeed(`Board Item "${data.name}" (${data.code}) Updated`)
   } catch (error) {
     spinner.fail(error.response.data.error)
   }
@@ -121,12 +108,9 @@ function showItem(name, hashcode) {
     return
   }
   let items = loadedBoardData.columns
-    .map((column) => column.items)
-    .reduce(
-      (accumulator = [], items) => [ ...accumulator, ...items ]
-    )
-  let item = items.find(
-    (item) => item.code === hashcode)
+    .map(column => column.items)
+    .reduce((accumulator = [], items) => [...accumulator, ...items])
+  let item = items.find(item => item.code === hashcode)
   if (!item) {
     spinner.fail('Board Item not found!')
     return
