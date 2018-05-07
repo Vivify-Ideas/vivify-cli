@@ -14,22 +14,21 @@ function prepareBoardColumns(boardData) {
       items: boardData.backlog_items
     })
 
-    boardData.sprints.forEach((sprint) => {
+    boardData.sprints.forEach(sprint => {
       columns.push({
         name: sprint.name,
         status: sprint.status,
         items: sprint.columns
-          .map((column) => column.items)
+          .map(column => column.items)
           .reduce((accumulator = [], currentValue) => {
-            return [ ...accumulator, ...currentValue ]
+            return [...accumulator, ...currentValue]
           })
       })
     })
   }
 
   if (boardData.type === 'kanban') {
-    columns = boardData.lists.sort(
-      (col1, col2) => col1.order >= col2.order)
+    columns = boardData.lists.sort((col1, col2) => col1.order >= col2.order)
   }
 
   return columns
