@@ -23,16 +23,19 @@ function storeBoardAuthData(name, code, email, token) {
 }
 
 async function removeBoardAuthData(name) {
-  const { answer } = await inquirer.prompt({
+  const answer = await inquirer.prompt({
     type: 'confirm',
     name: 'remove_board',
     message: 'Are you sure you want to remove persisted Board auth data?'
   })
+
   let boardExists = !!config.get(`boards.${name}`)
+
   if (!boardExists) {
     spinner.fail(`Persisted Board auth data *${name}* not found!`)
     return
   }
+
   if (answer.remove_board) {
     let boards = config.get('boards')
     delete boards[name]
